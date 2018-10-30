@@ -1,0 +1,19 @@
+﻿LOAD DATA LOCAL INFILE '~/Seller.dat' INTO TABLE Seller
+FIELDS TERMINATED BY '*';
+SELECT Seller_UserID FROM Seller WHERE Seller_Rating = '1035';
+
+LOAD DATA LOCAL INFILE '~/Bid.dat' INTO TABLE Bid
+FIELDS TERMINATED BY '*';
+#SELECT ItemID FROM Bid WHERE Amount = '4.00';
+
+LOAD DATA LOCAL INFILE '~/Bidder.dat' INTO TABLE Bidder
+FIELDS TERMINATED BY '*';
+#SELECT Bidder_UserID FROM Bidder WHERE Bidder_Country = 'USA';
+
+LOAD DATA LOCAL INFILE '~/ItemCategory.dat' INTO TABLE ItemCategory
+FIELDS TERMINATED BY '*';
+#SELECT ItemID FROM ItemCategory WHERE Category = 'Collectibles';
+
+LOAD DATA LOCAL INFILE '~/Item.dat' INTO TABLE Item
+FIELDS TERMINATED BY '*';
+#SELECT ItemID, Name FROM Item WHERE ItemID = '1043374545';
