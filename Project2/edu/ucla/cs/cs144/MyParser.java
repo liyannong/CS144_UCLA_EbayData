@@ -204,14 +204,6 @@ class MyParser {
         File file4 = new File("Bidder.dat");
         File file5 = new File("Seller.dat");
 
-        //Dont delete here because you need to parse 40 documents seperately
-        //        file1.delete();
-        //        file2.delete();
-        //        file3.delete();
-        //        file4.delete();
-        //        file5.delete();
-
-
 
         //Get each Item in a list
         //Create a .dat file for each table
