@@ -203,11 +203,13 @@ class MyParser {
         File file3 = new File("Bid.dat");
         File file4 = new File("Bidder.dat");
         File file5 = new File("Seller.dat");
-        file1.delete();
-        file2.delete();
-        file3.delete();
-        file4.delete();
-        file5.delete();
+
+        //Dont delete here because you need to parse 40 documents seperately
+        //        file1.delete();
+        //        file2.delete();
+        //        file3.delete();
+        //        file4.delete();
+        //        file5.delete();
 
 
 
