@@ -17,6 +17,7 @@ public class DbManager {
 	 * @return An open java.sql.Connection
 	 * @throws SQLException
 	 */
+
 	public static Connection getConnection(boolean readOnly)
 	throws SQLException {        
             Connection conn = DriverManager.getConnection(

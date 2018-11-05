@@ -23,10 +23,6 @@ import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
 
 public class Indexer {
-
-    /**
-     * Creates a new instance of Indexer
-     */
     public Indexer() {
     }
 
