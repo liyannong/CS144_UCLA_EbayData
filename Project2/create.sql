@@ -1,5 +1,4 @@
 ﻿SHOW DATABASES;
-
 USE CS144;
 
 CREATE TABLE Seller(Seller_UserID VARCHAR(40), Seller_Rating VARCHAR(40));
