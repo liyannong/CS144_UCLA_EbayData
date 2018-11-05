@@ -96,12 +96,11 @@ class MyParser {
     /* Non-recursive (NR) version of Node.getElementsByTagName(...)
      */
     static Element[] getElementsByTagNameNR(Element e, String tagName) {
-        Vector< Element > elements = new Vector< Element >();
+        Vector<Element> elements = new Vector<Element>();
         Node child = e.getFirstChild();
         while (child != null) {
-            if (child instanceof Element && child.getNodeName().equals(tagName))
-            {
-                elements.add( (Element)child );
+            if (child instanceof Element && child.getNodeName().equals(tagName)) {
+                elements.add((Element) child);
             }
             child = child.getNextSibling();
         }
@@ -130,8 +129,7 @@ class MyParser {
         if (e.getChildNodes().getLength() == 1) {
             Text elementText = (Text) e.getFirstChild();
             return elementText.getNodeValue();
-        }
-        else
+        } else
             return "";
     }
 
@@ -156,8 +154,9 @@ class MyParser {
         else {
             double am = 0.0;
             NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.US);
-            try { am = nf.parse(money).doubleValue(); }
-            catch (ParseException e) {
+            try {
+                am = nf.parse(money).doubleValue();
+            } catch (ParseException e) {
                 System.out.println("This method should work for all " +
                         "money values you find in our data.");
                 System.exit(20);
@@ -178,12 +177,10 @@ class MyParser {
         Document doc = null;
         try {
             doc = builder.parse(xmlFile);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
             System.exit(3);
-        }
-        catch (SAXException e) {
+        } catch (SAXException e) {
             System.out.println("Parsing error on file " + xmlFile);
             System.out.println("  (not supposed to happen with supplied XML files)");
             e.printStackTrace();
@@ -207,17 +204,16 @@ class MyParser {
 
         //Get each Item in a list
         //Create a .dat file for each table
-        BufferedWriter output1 = new BufferedWriter(new FileWriter("Item.dat",true));
-        BufferedWriter output2 = new BufferedWriter(new FileWriter("ItemCategory.dat",true));
-        BufferedWriter output3 = new BufferedWriter(new FileWriter("Bid.dat",true));
-        BufferedWriter output4 = new BufferedWriter(new FileWriter("Bidder.dat",true));
-        BufferedWriter output5 = new BufferedWriter(new FileWriter("Seller.dat",true));
+        BufferedWriter output1 = new BufferedWriter(new FileWriter("Item.dat", true));
+        BufferedWriter output2 = new BufferedWriter(new FileWriter("ItemCategory.dat", true));
+        BufferedWriter output3 = new BufferedWriter(new FileWriter("Bid.dat", true));
+        BufferedWriter output4 = new BufferedWriter(new FileWriter("Bidder.dat", true));
+        BufferedWriter output5 = new BufferedWriter(new FileWriter("Seller.dat", true));
 
-        Element[] Item_List = getElementsByTagNameNR( doc.getDocumentElement(), "Item");
+        Element[] Item_List = getElementsByTagNameNR(doc.getDocumentElement(), "Item");
         String colSeparator = "*", nullReplacer = "NULL";
 
-        for (int i=0;i<Item_List.length;i++)
-        {
+        for (int i = 0; i < Item_List.length; i++) {
             Element Item = Item_List[i];
 
             //TEST
@@ -228,7 +224,7 @@ class MyParser {
             //Seller_Latitude,Seller_Longitude,Seller_Country,Started,Ends,Seller_UserID,Description)
             //////////////////////////////////////////////
 
-            String ItemID = "", Name = "" , Currently = "", Buy_Price = "", First_Bid = "", Number_of_Bids = "";
+            String ItemID = "", Name = "", Currently = "", Buy_Price = "", First_Bid = "", Number_of_Bids = "";
 
             ItemID = Item.getAttribute("ItemID");
             if (SeenItem.contains(ItemID))
@@ -250,22 +246,22 @@ class MyParser {
             //System.out.println(First_Bid);
 
             Number_of_Bids = getElementTextByTagNameNR(Item, "Number_of_Bids");
-            if(Number_of_Bids.equals(""))
+            if (Number_of_Bids.equals(""))
                 Number_of_Bids = nullReplacer;
-           //System.out.println(Number_of_Bids);
+            //System.out.println(Number_of_Bids);
 
 
-            String Seller_Location = "", Seller_Latitude = "" , Seller_Longitude = "", Seller_Country = "";
+            String Seller_Location = "", Seller_Latitude = "", Seller_Longitude = "", Seller_Country = "";
 
             Element Location = getElementByTagNameNR(Item, "Location");
             Seller_Location = getElementTextByTagNameNR(Item, "Location");
             Seller_Latitude = Location.getAttribute("Latitude");
             Seller_Longitude = Location.getAttribute("Longitude");
-            if(Seller_Latitude.equals(""))
+            if (Seller_Latitude.equals(""))
                 Seller_Latitude = nullReplacer;
-            if(Seller_Longitude.equals(""))
+            if (Seller_Longitude.equals(""))
                 Seller_Longitude = nullReplacer;
-            Seller_Country  = getElementTextByTagNameNR(Item, "Country");
+            Seller_Country = getElementTextByTagNameNR(Item, "Country");
             //System.out.println(Seller_Location + Seller_Latitude + Seller_Longitude + Seller_Country);
 
 
@@ -277,7 +273,7 @@ class MyParser {
 
             Element seller = getElementByTagNameNR(Item, "Seller");
             Seller_UserID = seller.getAttribute("UserID");
-            if(Seller_UserID.equals(""))
+            if (Seller_UserID.equals(""))
                 Seller_UserID = nullReplacer;
             //System.out.println(Seller_Rating + " " + Seller_UserID);
 
@@ -285,16 +281,15 @@ class MyParser {
             //System.out.println(descriptionTruncater(Description));
 
             //Write into .dat file
-            output1.write(ItemID + colSeparator+ Name + colSeparator + strip(Currently) + colSeparator +
-                            strip(Buy_Price) + colSeparator + strip(First_Bid) + colSeparator + Number_of_Bids +
-                            colSeparator + Seller_Location + colSeparator + Seller_Latitude + colSeparator+
-                            Seller_Longitude + colSeparator + Seller_Country + colSeparator + dateTimeParserFormatter(Started)+
-                            colSeparator + dateTimeParserFormatter(Ends) + colSeparator + Seller_UserID + colSeparator +Description);
+            output1.write(ItemID + colSeparator + Name + colSeparator + strip(Currently) + colSeparator +
+                    strip(Buy_Price) + colSeparator + strip(First_Bid) + colSeparator + Number_of_Bids +
+                    colSeparator + Seller_Location + colSeparator + Seller_Latitude + colSeparator +
+                    Seller_Longitude + colSeparator + Seller_Country + colSeparator + dateTimeParserFormatter(Started) +
+                    colSeparator + dateTimeParserFormatter(Ends) + colSeparator + Seller_UserID + colSeparator + Description);
             output1.newLine();
             //////////////////////////////////////////////
             //END OF FIRST PART
             //////////////////////////////////////////////
-
 
 
             //////////////////////////////////////////////
@@ -303,7 +298,7 @@ class MyParser {
             Element[] Category_List = getElementsByTagNameNR(Item, "Category");
             String Category = "";
 
-            for(int j = 0; j < Category_List.length; j++){
+            for (int j = 0; j < Category_List.length; j++) {
                 Element Cat = Category_List[j];
                 //Can't use getTextContent of Node class here!!
                 Category = Cat.getFirstChild().getNodeValue();
@@ -329,7 +324,7 @@ class MyParser {
             Element[] Bid_List = getElementsByTagNameNR(Bids, "Bid");
 
 
-            for(int k = 0; k < Bid_List.length; k++){
+            for (int k = 0; k < Bid_List.length; k++) {
                 Element Bidder = getElementByTagNameNR(Bid_List[k], "Bidder");
                 Time = getElementTextByTagNameNR(Bid_List[k], "Time");
                 if (Time == "")
@@ -351,13 +346,13 @@ class MyParser {
                 //else Bidder_Location=columnSeparator+Bidder_Location+columnSeparator;
                 Bidder_Country = getElementTextByTagNameNR(Bidder, "Country");
                 if (Bidder_Country == "")
-                    Bidder_Country=nullReplacer;
+                    Bidder_Country = nullReplacer;
 
-                output3.write(ItemID + colSeparator+ Bidder_UserID + colSeparator + dateTimeParserFormatter(Time)
-                               + colSeparator + strip(Amount)+ colSeparator);
+                output3.write(ItemID + colSeparator + Bidder_UserID + colSeparator + dateTimeParserFormatter(Time)
+                        + colSeparator + strip(Amount) + colSeparator);
                 output3.newLine();
                 output4.write(Bidder_UserID + colSeparator + Bidder_Rating + colSeparator + Bidder_Location
-                                + colSeparator + Bidder_Country + colSeparator);
+                        + colSeparator + Bidder_Country + colSeparator);
                 output4.newLine();
 
             }
@@ -371,10 +366,10 @@ class MyParser {
             //////////////////////////////////////////////
 
             String Seller_Rating = "";
-            Element Seller=getElementByTagNameNR(Item, "Seller");
+            Element Seller = getElementByTagNameNR(Item, "Seller");
 
             Seller_UserID = Seller.getAttribute("UserID");
-            if(SeenSeller.contains(Seller_UserID))
+            if (SeenSeller.contains(Seller_UserID))
                 continue;
             SeenSeller.add(Seller_UserID);
             if (Seller_UserID == "")
@@ -409,23 +404,19 @@ class MyParser {
 
     }
 
-    static String dateTimeParserFormatter(String dateTime){
+    static String dateTimeParserFormatter(String dateTime) {
         if (dateTime.equals("\\N"))
             return "\\N";
-        else
-        {
+        else {
             //TIMESTAMP has a range of '1970-01-01 00:00:01' UTC to '2038-01-19 03:14:07' UTC
             Date myDate = new Date(dateTime);
-            try
-            {
+            try {
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-                String result=format.format(myDate);
+                String result = format.format(myDate);
                 //System.out.println("Successfully parsed!");
                 return result;
-            }
-            catch(Exception e)
-            {
+            } catch (Exception e) {
                 System.out.println("Error Formatting!");
                 return dateTime;
             }
@@ -444,13 +435,13 @@ class MyParser {
 */
     }
 
-    static String descriptionTruncater(String description){
-        if(description.length() > 4000)
+    static String descriptionTruncater(String description) {
+        if (description.length() > 4000)
             return description.substring(0, 4001);
         return description;
     }
 
-    public static void main (String[] args) throws IOException{
+    public static void main(String[] args) throws IOException {
         if (args.length == 0) {
             System.out.println("Usage: java MyParser [file] [file] ...");
             System.exit(1);
@@ -463,18 +454,16 @@ class MyParser {
             factory.setIgnoringElementContentWhitespace(true);
             builder = factory.newDocumentBuilder();
             builder.setErrorHandler(new MyErrorHandler());
-        }
-        catch (FactoryConfigurationError e) {
+        } catch (FactoryConfigurationError e) {
             System.out.println("unable to get a document builder factory");
             System.exit(2);
-        }
-        catch (ParserConfigurationException e) {
+        } catch (ParserConfigurationException e) {
             System.out.println("parser was unable to be configured");
             System.exit(2);
         }
 
         //For tests
-       // processFile(new File("iterms-0.xml"));
+        // processFile(new File("iterms-0.xml"));
 
         System.out.println(strip("$2354.23"));
 
