@@ -1,6 +1,6 @@
 ﻿LOAD DATA LOCAL INFILE '~/Seller.dat' INTO TABLE Seller
 FIELDS TERMINATED BY '*';
-SELECT Seller_UserID FROM Seller WHERE Seller_Rating = '1035';
+#SELECT Seller_UserID FROM Seller WHERE Seller_Rating = '1035';
 
 LOAD DATA LOCAL INFILE '~/Bid.dat' INTO TABLE Bid
 FIELDS TERMINATED BY '*';
