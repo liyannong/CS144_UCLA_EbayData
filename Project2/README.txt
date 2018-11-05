@@ -6,8 +6,10 @@ The purpose of this project is parse XML data files into MySQL through Java.
    create.sql, drop.sql, load.sql: SQL script file used to create tables, drop tables and bulk load data.
    build.xml: build file for "ant", which compiles and runs Java program.
    runLoad.sh: Shell script which automatically run Java program and import the data into MySQL.
+
 2. In the /home/CS144 dir, transfer windows generated runLoad.sh file to unix version using:
    dos2unix runLoad.sh
+
 3. In the /home/CS144 dir, run the shell script file using:
    sh runLoad.sh
 
