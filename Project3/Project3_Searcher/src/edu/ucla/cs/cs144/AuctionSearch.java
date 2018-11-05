@@ -152,14 +152,16 @@ public class AuctionSearch implements IAuctionSearch {
 	}
 
 	public String getXMLDataForItemId(String itemId) {
+		//Find the info of a item given a itemId
+		//Each element is checked step by step
 		Connection conn;
-		try{
+		try {
 			conn = DbManager.getConnection(true);
 			PreparedStatement item_stmt = conn.prepareStatement("SELECT * FROM Item WHERE ItemId = ?");
 			item_stmt.setString(1, itemId);
 			ResultSet rs_item = item_stmt.executeQuery();
 
-			if(!rs_item.first())
+			if (! rs_item.first())
 				return "";
 
 			//TEST
@@ -176,7 +178,6 @@ public class AuctionSearch implements IAuctionSearch {
 			doc.appendChild(item);
 
 
-
 			//Name
 			String name = rs_item.getString("Name");
 			Element nameE = doc.createElement("Name");
@@ -185,13 +186,12 @@ public class AuctionSearch implements IAuctionSearch {
 
 
 			//Currently, Buy_Price, First_Bid
-			//Forgot to parse Currently in proj 2
 			String test = "";
-			String[] cols = new String[]{"Currently", "Buy_Price", "First_Bid"};
-			for(String col : cols){
+			String[] cols = new String[]{/*"Currently",*/"Buy_Price", "First_Bid"};
+			for (String col : cols) {
 				String str = rs_item.getString(col);
 				//System.out.println(str);
-				if(str != null){
+				if (str != null) {
 					Element tempE = doc.createElement(col);
 					tempE.appendChild(doc.createTextNode("$" + str));
 					item.appendChild(tempE);
@@ -199,12 +199,11 @@ public class AuctionSearch implements IAuctionSearch {
 			}
 
 
-
 			//Category
 			PreparedStatement cat_stmt = conn.prepareStatement("SELECT * FROM ItemCategory WHERE ItemId = ?");
 			cat_stmt.setString(1, itemId);
 			ResultSet cat_rs = cat_stmt.executeQuery();
-			while(cat_rs.next()){
+			while (cat_rs.next()) {
 				Element catE = doc.createElement("Category");
 				catE.appendChild(doc.createTextNode(cat_rs.getString("Category")));
 				//System.out.println(cat_rs.getString("Category"));
@@ -212,20 +211,28 @@ public class AuctionSearch implements IAuctionSearch {
 			}
 
 
-
-
 			//Bid
 			PreparedStatement bid_stmt = conn.prepareStatement("select * from Bid where ItemId=?");
 			bid_stmt.setString(1, itemId);
 			ResultSet bid_rs = bid_stmt.executeQuery();
 			Element bids = doc.createElement("Bids");
-			int num = 0;
+			//int num = 0;
 
-			while(bid_rs.next()){
-				num++;
+			while (bid_rs.next()) {
+				//num++;
 				Element bid = doc.createElement("Bid");
 				Element bidder = doc.createElement("Bidder");
 				String bidderID = bid_rs.getString("Bidder_UserID");
+				bidder.setAttribute("UserID", bidderID);
+
+				String bidTime = bid_rs.getString("BidTime");
+				String amount = bid_rs.getString("Amount");
+				Element timeE = doc.createElement("Time");
+				Element amountE = doc.createElement("Amount");
+				timeE.appendChild(doc.createTextNode(bidTime));
+				amountE.appendChild(doc.createTextNode(amount));
+				bid.appendChild(timeE);
+				bid.appendChild(amountE);
 
 				//System.out.println(bidderID);
 
@@ -233,7 +240,7 @@ public class AuctionSearch implements IAuctionSearch {
 				bidder_stmt.setString(1, bidderID);
 				ResultSet bidder_rs = bidder_stmt.executeQuery();
 
-				if(bidder_rs.next()){
+				if (bidder_rs.next()) {
 					bidder.setAttribute("Rating", bidder_rs.getString("Bidder_Rating"));
 					String location = bidder_rs.getString("Bidder_Location");
 					String country = bidder_rs.getString("Bidder_Country");
@@ -252,6 +259,7 @@ public class AuctionSearch implements IAuctionSearch {
 					}
 				}
 
+				bid.appendChild(bidder);
 				bids.appendChild(bid);
 
 			}
@@ -263,7 +271,7 @@ public class AuctionSearch implements IAuctionSearch {
 			Element locationEE = doc.createElement("Location");
 			locationEE.appendChild(doc.createTextNode(rs_item.getString("Seller_Location")));
 			String Latitude = rs_item.getString("Seller_Latitude");
-			String Longitude= rs_item.getString("Seller_Longitude");
+			String Longitude = rs_item.getString("Seller_Longitude");
 			//System.out.println(Latitude + " " + Longitude);
 
 			if (Latitude != null && Latitude.length() != 0) {
@@ -276,11 +284,9 @@ public class AuctionSearch implements IAuctionSearch {
 			item.appendChild(locationEE);
 
 
-
-
 			//Started and Ends
 			String[] times = new String[]{"Started", "Ends"};
-			for(String time : times){
+			for (String time : times) {
 				String str = rs_item.getString(time);
 				//System.out.println(str);
 				Element tempE = doc.createElement(time);
@@ -298,7 +304,7 @@ public class AuctionSearch implements IAuctionSearch {
 			ResultSet seller_rs = seller_stmt.executeQuery();
 			Element sellerE = doc.createElement("Seller");
 
-			if(seller_rs.next()){
+			if (seller_rs.next()) {
 				sellerE.setAttribute("Rating", seller_rs.getString("Seller_Rating"));
 				sellerE.setAttribute("UserID", sellerID);
 			}
@@ -321,7 +327,7 @@ public class AuctionSearch implements IAuctionSearch {
 			return swriter.getBuffer().toString();
 
 
-		}catch (Exception e){
+		} catch (Exception e) {
 			System.out.println(e);
 			return "";
 		}
