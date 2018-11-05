@@ -51,7 +51,6 @@ public class AuctionSearchClient implements IAuctionSearch {
 
         SearchResult[] result = null;
         try {
-
             System.out.println("Searching.......");
 
             //the folder that stores the constructed lucene index
