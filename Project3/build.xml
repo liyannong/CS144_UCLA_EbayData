@@ -57,5 +57,4 @@
                 <jar basedir="${build-dir}" destfile="${build-dir}/AuctionSearchService.aar"/>
 
     </target>
-
 </project>
