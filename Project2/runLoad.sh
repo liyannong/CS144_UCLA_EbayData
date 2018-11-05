@@ -14,7 +14,7 @@ chmod u+x runLoad.sh
 
 mysql CS144 < drop.sql
 
-#For test purpose
+#For test purpose, uncomment below line
 #ant run
 
 ant run-all
